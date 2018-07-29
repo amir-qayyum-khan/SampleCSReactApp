@@ -4,3 +4,15 @@
         padding-top: 50px;
     }
 }
+
+.ui-dialog-container {
+    background: aliceblue !important;
+    overflow: auto !important;
+}
+
+.ui-dialog {
+    transform: none !important;
+    height: auto;
+    width: auto;
+    padding: 10px;
+}
