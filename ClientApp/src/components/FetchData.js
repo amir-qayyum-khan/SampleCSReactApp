@@ -46,7 +46,10 @@ export class FetchData extends Component {
     return (
       <div>
         <h1>Common words within the Company field</h1>
-        <p>Identify the five most common words within the Company field.</p>
+        <p>
+            Identify the five most common words within the Company field from data set <a 
+            href="http://profiler.markinson.com.au/api/Customer">Customer API</a>
+        </p>
         {contents}
       </div>
     );
