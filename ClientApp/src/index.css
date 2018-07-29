@@ -16,3 +16,10 @@
     width: auto;
     padding: 10px;
 }
+
+.ui-dialog-titlebar > .title {
+    font-weight: bold;
+    padding: 10px;
+    width: 50%;
+    margin: 0 auto;
+}
