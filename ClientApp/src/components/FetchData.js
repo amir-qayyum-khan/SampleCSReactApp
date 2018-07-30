@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux"
 import ListOfCompanies from './ListOfCompanies';
+import { getCommonWords } from '../actions/index';
 
 export class FetchData extends Component {
   displayName = FetchData.name
 
-  constructor(props) {
-    super(props);
-    this.state = { commonWords: [], loading: true };
+  props: {
+    commonWordReducer: Object,
+    dispatch: Function
+  }
 
-    fetch('api/SampleData/ProcessWords')
-      .then(response => response.json())
-      .then(data => {
-        this.setState({ commonWords: data, loading: false });
-      });
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(getCommonWords());
   }
 
   static renderCommonWordsTable(commonWords) {
@@ -39,9 +40,15 @@ export class FetchData extends Component {
   }
 
   render() {
-    let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
-      : FetchData.renderCommonWordsTable(this.state.commonWords);
+    const { 
+      commonWordReducer: {
+        loading = true,
+        commonWords = [],
+        errorInfo = null
+      } 
+    } = this.props;    
+    let contents = loading ? <p><em>Loading...</em></p>
+      : FetchData.renderCommonWordsTable(commonWords);
 
     return (
       <div>
@@ -55,3 +62,16 @@ export class FetchData extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  commonWordReducer: state.commonWordReducer,
+})
+
+const mapDispatchToProps = dispatch => ({
+  dispatch: dispatch
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FetchData)
