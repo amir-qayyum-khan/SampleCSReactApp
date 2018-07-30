@@ -22,6 +22,9 @@ export const receiveCommonWordsFailure = createAction(
   (loading, errorInfo) => ({ loading, errorInfo })
 )
 
+export const SET_DIALOG_VISIBILITY = "SET_DIALOG_VISIBILITY"
+export const setDialogVisibility = createAction(SET_DIALOG_VISIBILITY)
+
 
 export function getCommonWords() {
   return (dispatch) => {

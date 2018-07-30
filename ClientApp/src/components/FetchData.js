@@ -1,22 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux"
 import ListOfCompanies from './ListOfCompanies';
-import { getCommonWords } from '../actions/index';
+import { getCommonWords, setDialogVisibility } from '../actions/index';
 
 export class FetchData extends Component {
   displayName = FetchData.name
 
   props: {
+    companyVisibility: Object,
     commonWordReducer: Object,
     dispatch: Function
   }
 
   componentDidMount() {
     const { dispatch } = this.props;
+    this.setCompaniesVisibility(false, null);
     dispatch(getCommonWords());
   }
 
-  static renderCommonWordsTable(commonWords) {
+  setCompaniesVisibility = (visible, word) => {
+    const { dispatch } = this.props;
+    dispatch(
+      setDialogVisibility({
+        visible: visible,
+        word: word
+      })
+    );
+  }
+
+  renderCommonWordsTable =(commonWords) => {
+    const { companyVisibility } = this.props;
     return (
       <table className='table'>
         <thead>
@@ -31,7 +44,13 @@ export class FetchData extends Component {
             <tr key={commonWord.word}>
               <td>{commonWord.word}</td>
               <td>{commonWord.count}</td>
-              <td><ListOfCompanies list={commonWord.companies} /></td>
+              <td>
+                <ListOfCompanies 
+                  wordkey={commonWord.word}  
+                  companyVisibility={companyVisibility}  
+                  list={commonWord.companies}
+                  setCompaniesVisibility={this.setCompaniesVisibility} />
+              </td>
             </tr>
           )}
         </tbody>
@@ -48,7 +67,7 @@ export class FetchData extends Component {
       } 
     } = this.props;    
     let contents = loading ? <p><em>Loading...</em></p>
-      : FetchData.renderCommonWordsTable(commonWords);
+      : this.renderCommonWordsTable(commonWords);
 
     return (
       <div>
@@ -65,6 +84,7 @@ export class FetchData extends Component {
 
 const mapStateToProps = state => ({
   commonWordReducer: state.commonWordReducer,
+  companyVisibility: state.companyVisibility  
 })
 
 const mapDispatchToProps = dispatch => ({

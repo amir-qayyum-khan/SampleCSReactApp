@@ -1,14 +1,15 @@
 import {
     RECEIVE_COMMON_WORDS_SUCCESS,
-    RECEIVE_COMMON_WORDS_FAILURE
+    RECEIVE_COMMON_WORDS_FAILURE,
+    REQUEST_COMMON_WORDS
 } from '../actions/index';
 
 
-const INITIAL_STATE = {loading: true, commonWords:[], errorInfo: null};
+const INITIAL_STATE = {loading: false, commonWords:[], errorInfo: null};
 
 export const commonWordReducer = (state=INITIAL_STATE, action) => {
 	var newState = Object.assign({}, state);
-    console.log(action);
+
 	if (action.type === RECEIVE_COMMON_WORDS_SUCCESS) {
         newState.commonWords = action.payload.commonWords;
         newState.loading = action.payload.loading;
@@ -17,8 +18,10 @@ export const commonWordReducer = (state=INITIAL_STATE, action) => {
         newState.commonWords = [];
         newState.loading = action.payload.loading;
         newState.errorInfo = action.payload.errorInfo;
-    } else {
-        newState = INITIAL_STATE;
+    }  else if (action.type === REQUEST_COMMON_WORDS) {
+        newState.commonWords = [];
+        newState.loading = action.payload;
+        newState.errorInfo = null;
     }
 	return newState;
 }

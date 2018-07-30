@@ -4,37 +4,53 @@ import Dialog from 'react-dialog';
 export default class ListOfCompanies extends Component {
   displayName = ListOfCompanies.name
 
-  constructor(props) {
-    super(props);
-    this.state = { isDialogOpen: false};
+  props: {
+    companyVisibility: Object,
+    setCompaniesVisibility: Function,
+    list: Array
   }
 
-  openDialog = () => this.setState({ isDialogOpen: true })
- 
-  handleClose = () => this.setState({ isDialogOpen: false })
-
-  render() {
-    const { list = []} = this.props;
-    const companiesList = list.map(element => <li>{element}</li>);
-    return (
-      <div> 
-        <button type="button" onClick={this.openDialog}>Open List</button>  
-        {
-          this.state.isDialogOpen &&
+  renderList = (companiesList) => {
+    const { 
+      companyVisibility: { visible, word } = {
+        visible: false,
+        word: null
+      },
+      setCompaniesVisibility,
+      wordkey  
+    } = this.props;
+    console.log(visible, wordkey, word);
+    if (visible && wordkey === word) {
+       return (
           <Dialog
             title="List Of Comapnies"
             modal={true}
-            onClose={this.handleClose}
+            onClose={() => setCompaniesVisibility(false, wordkey)}
             buttons={
               [{
                  text: "Close",
-                 onClick: () => this.handleClose()
+                 onClick: () => setCompaniesVisibility(false, wordkey)
               }]
             }>
               <ul>{companiesList}</ul>
               <br/>
           </Dialog>
-        }
+       );
+    }
+  }  
+
+  render() {
+    const { 
+      list = [],
+      setCompaniesVisibility,
+      wordkey  
+    } = this.props;
+
+    const companiesList = list.map(element => <li>{element}</li>);
+    return (
+      <div> 
+        <button type="button" onClick={() => setCompaniesVisibility(true, wordkey)}>Open List</button>  
+        {this.renderList(companiesList)}
       </div>
     );
   }
