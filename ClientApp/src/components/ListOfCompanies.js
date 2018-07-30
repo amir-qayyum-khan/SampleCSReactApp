@@ -19,7 +19,7 @@ export default class ListOfCompanies extends Component {
       setCompaniesVisibility,
       wordkey  
     } = this.props;
-    console.log(visible, wordkey, word);
+
     if (visible && wordkey === word) {
        return (
           <Dialog

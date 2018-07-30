@@ -17,6 +17,12 @@ The change i made in requirment is I am processing the source api on server side
 i am consuming that api and displaying that processed data.<br/>
 API I made is <a href="https://localhost:5001/api/SampleData/ProcessWords">here</a>.
 
+### Architecture:
+- I am using client server architecture.
+- Server is a MVC base .net applcation. Which creates declares a API which process company names and extract 5 common names.
+- Client side is a node application. Where front end is developed with reactJs and css.
+- Client side consumes C# api and display results. There is components to expand list of information and show the actual companies that has selected common word.
+
 ### Tool:
 visual Studio 2017
 
